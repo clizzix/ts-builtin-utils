@@ -6,9 +6,13 @@
 // Use Partial to make all properties in the User type optional.
 
 type User = {
-  id: number;
-  name: string;
-  email: string;
+    id: number;
+    name: string;
+    email: string;
+};
+
+const partialUser = (newData: Partial<User>) => {
+    return newData;
 };
 
 // TODO: Create a variable `draftUser` of type Partial<User>
@@ -16,12 +20,16 @@ type User = {
 
 // const draftUser: ??? = { name: "Draft" };
 
+const draftUser: Partial<User> = {
+    name: 'Draft',
+};
+
 // 2. Required
 // Use Required to make sure all fields are required.
 
 type Settings = {
-  darkMode?: boolean;
-  fontSize?: number;
+    darkMode?: boolean;
+    fontSize?: number;
 };
 
 // TODO: Create a variable `strictSettings` of type Required<Settings>
@@ -29,12 +37,16 @@ type Settings = {
 
 // const strictSettings: ??? = { darkMode: true, fontSize: 16 };
 
+const strictSettings: Required<Settings> = {
+    darkMode: true,
+    fontSize: 16,
+};
 // 3. Readonly
 // Make a Book object that cannot be edited after creation.
 
 type Book = {
-  title: string;
-  author: string;
+    title: string;
+    author: string;
 };
 
 // TODO: Use Readonly<Book> to make the book immutable.
@@ -42,6 +54,9 @@ type Book = {
 
 // const book: ??? = { title: "1984", author: "George Orwell" };
 // book.title = "Animal Farm"; // ❌ Should be a compile error
+
+const book: Readonly<Book> = { title: '1984', author: 'George Orwell' };
+book.title = 'Animal Farm';
 
 // 4. Record
 // You’re building a key-value map of scores per user.
@@ -54,20 +69,31 @@ type Book = {
 //   bob: 36
 // };
 
+type Names = 'alice' | 'bob';
+type Score = Record<Names, number>;
+
+const scores: Score = {
+    alice: 42,
+    bob: 36,
+};
+
 // 5. Pick
 // Pick only the name and email from the User type.
 
 type Contact = {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
 };
 
 // TODO: Create a type ContactInfo using Pick
 // Then create a variable `contactInfo` with only those props.
 
 // const contactInfo: ??? = { name: "Grace", email: "grace@example.com" };
+
+type ContactInfo = Pick<Contact, 'name' | 'email'>;
+const contactInfo: ContactInfo = { name: 'Grace', email: 'grace@example.com' };
 
 // 6. Omit
 // Now do the reverse: remove the phone from Contact.
@@ -81,3 +107,11 @@ type Contact = {
 //   email: "alan@example.com",
 //   phone: "should not be allowed" // ❌
 // };
+
+type ContactNoPhone = Omit<Contact, 'phone'>;
+const contactNoPhone: ContactNoPhone = {
+    id: 1,
+    name: 'Alan',
+    email: 'alan@example.com',
+    phone: 'Should not be allowed',
+};
